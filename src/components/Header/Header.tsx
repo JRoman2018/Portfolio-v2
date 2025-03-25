@@ -1,23 +1,33 @@
-import { Container } from './styles'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { NavHashLink, HashLink } from 'react-router-hash-link'
-import { useState } from 'react'
-import Resume from '../../assets/Vinayak_Kumar_Singh_Resume.pdf'
-export function Header() {
-  const [isActive, setActive] = useState(false)
-  function toggleTheme() {
-    let html = document.getElementsByTagName('html')[0]
-    html.classList.toggle('light')
-  }
-  function closeMenu() {
-    setActive(false)
-  }
+import { Container } from "./styles";
+import { BrowserRouter as Router } from "react-router-dom";
+import { NavHashLink, HashLink } from "react-router-hash-link";
+import { useRef, useState } from "react";
+
+export type HeaderProps = {
+  name: string;
+  resume: any;
+};
+
+export function Header({ name, resume }: HeaderProps) {
+  const [isActive, setActive] = useState(false);
+  const htmlRef = useRef<HTMLElement | null>(null);
+
+  const toggleTheme = () => {
+    if (!htmlRef.current) {
+      htmlRef.current = document.documentElement; // Set ref to <html>
+    }
+    htmlRef.current.classList.toggle("light");
+  };
+
+  const closeMenu = () => {
+    setActive(false);
+  };
+
   return (
     <Container className="header-fixed">
       <Router>
         <HashLink smooth to="#home" className="logo">
-          <span>{"<Vinayak "}</span>
-          <span>{" Singh/>"}</span>
+          <span>{name}</span>
         </HashLink>
         <input
           onChange={toggleTheme}
@@ -26,8 +36,10 @@ export function Header() {
           id="switch"
           name="mode"
         />
-        <label htmlFor="switch">Toggle</label>
-        <nav className={isActive ? 'active' : ''}>
+        <label className="toggle" htmlFor="switch">
+          Toggle
+        </label>
+        <nav className={isActive ? "active" : ""}>
           <NavHashLink smooth to="#home" onClick={closeMenu}>
             Home
           </NavHashLink>
@@ -40,20 +52,20 @@ export function Header() {
           <NavHashLink smooth to="#contact" onClick={closeMenu}>
             Contact
           </NavHashLink>
-          <a href={Resume} download className="button">
+          <a href={resume} download className="button">
             Resume
           </a>
         </nav>
         <div
-          aria-expanded={isActive ? 'true' : 'false'}
+          aria-expanded={isActive ? "true" : "false"}
           aria-haspopup="true"
-          aria-label={isActive ? 'Fechar menu' : 'Abrir menu'}
-          className={isActive ? 'menu active' : 'menu'}
+          aria-label={isActive ? "Close menu" : "Open menu"}
+          className={isActive ? "menu active" : "menu"}
           onClick={() => {
-            setActive(!isActive)
+            setActive(!isActive);
           }}
         ></div>
       </Router>
     </Container>
-  )
+  );
 }

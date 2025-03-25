@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root{
-    --pink: #E31F71;
+    --pink: #258;
     --black: #212121;
     --green: #23ce6b;
     --blue: #016fb9;
@@ -107,12 +107,12 @@ export const GlobalStyle = createGlobalStyle`
     cursor: not-allowed;
   }
 
+  .container_toggle {
+    width: 40px;
+  }
 
   .logo{
     font-size: 3rem;
     color: #FFFF;
-    // &::first-letter{
-    //   color: var(--green);
-    // }
   }
-`
+`;
